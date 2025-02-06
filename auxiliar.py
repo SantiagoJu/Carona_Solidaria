@@ -1,15 +1,4 @@
-# PROJETO DE CARONAS DA UNB
-from src.database import DataBase as db
-
-#Verificar se a base de dados existe, se não existe, criar.
-path = '.\\data\\'
-if db.exist_database(path)==True:
-    pass
-else:
-    db.creat_database(path)
-    
-    
-'''option = 1
+option = 1
 while option != 0:
     menu = """[1] Cadastrar usuário 
               [2] Cadastrar Oferta de carona
@@ -29,7 +18,7 @@ while option != 0:
         name = input('Digite seu nome: ')
         email = input('Digite seu email: ')
         phone = input('Digite seu telefone: ')
-        # local = input('Digite sua regiao administrativa: ')
+        local = input('Digite sua regiao administrativa: ')
         user = [name, email, phone, local]
         
         # TRATAMENTO DE ERROS
@@ -40,9 +29,9 @@ while option != 0:
     
     # cadastro de oferna    
     if option == 2:
-        # name = input('Digite seu nome: ')
-        # email = input('Digite seu email: ')
-        # phone = input('Digite seu telefone: ')
+        name = input('Digite seu nome: ')
+        email = input('Digite seu email: ')
+        phone = input('Digite seu telefone: ')
         local = input('Digite sua regiao administrativa: ')
         datatime = input('Qual data e horário da carona?(DD-MM-AA HH:MM)')
         offer_list = [name, email, phone, local, datatime]
@@ -55,10 +44,10 @@ while option != 0:
         
     # ride search   
     if option == 3:
-       # - Input dos dados de busca (busca nos arquivos de dados)
-        #    (recebi input -> funçao de busca dos dados (abrir os dados salvos -> e buscar com os parametros fornecidos)
-        #- print lista de opções.
-       
+       ''' - Input dos dados de busca (busca nos arquivos de dados)
+            (recebi input -> funçao de busca dos dados (abrir os dados salvos -> e buscar com os parametros fornecidos)
+        - print lista de opções.'''
+             
         local = input('Digite o local: ')
         inicial_datetime = input('Digite o horario inicial da busca (DD-MM-AA HH:MM): ')
         final_datatime = input('Digite o horario final (DD-MM-AA HH:MM): ')
@@ -76,7 +65,3 @@ while option != 0:
     if option == 0:
         break
         
-'''
-
-
-
