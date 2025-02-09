@@ -1,9 +1,0 @@
-# MELHORIAS
-
-*Excluir usuário
-
-*Excluir carona
-
-*Adicionar função que contabiliza as vagas
-
-*Pesquisar as regiões admnistrativas e limitar as opções de cadastro 

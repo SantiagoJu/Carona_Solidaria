@@ -1,3 +1,8 @@
 #Ignorando os arquivos de cache
 */*__pycache__
 *__pycache__
+./*/.dim_user.parquet
+./*/.fact_ride.parquet
+auxiliar.py
+TO DO.txt 
+projeto.txt
