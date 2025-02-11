@@ -177,12 +177,6 @@ python main.py
 - Formatação consistente de data e hora
 - Validação de entrada de dados
 
-## 9. Possíveis Melhorias Futuras
-1. Sistema de avaliação de usuários
-2. Filtros adicionais na busca
-3. Validação adicional de dados de entrada
-4. Melhorias no tratamento de erros
-
 ---
 Desenvolvido para a disciplina de APC - UnB
 
