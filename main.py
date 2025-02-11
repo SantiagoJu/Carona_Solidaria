@@ -5,6 +5,16 @@ from src.utils import *
 
 import pandas as pd
 
+import subprocess
+import sys
+import os
+
+# Verifica o sistema operacional para abrir terminal externo
+if sys.platform == "win32":  # Windows
+    subprocess.run(['start', 'cmd', '/K', 'python', 'seu_codigo.py'], shell=True)
+elif sys.platform == "darwin" or sys.platform == "linux":  # Linux ou macOS
+    subprocess.run(['gnome-terminal', '--', 'bash', '-c', 'python3 seu_codigo.py; exec bash'])
+
 
 #Verificar se a base de dados existe, se não existe, criar.
 path = '.\\data\\'
@@ -25,20 +35,21 @@ path_fact_ride = '.\\data\\' + 'fact_ride.parquet'
 # a biblioteca pandas lê o banco de dados com a função read_parquet.
 fact_ride = pd.read_parquet(path_fact_ride)
 
-print(dim_user)
-print(40*'=')
-print(fact_ride)
+
 
 option = 1
 while option != 0:
     
-    menu = """=================== MENU ===================== 
+    menu = """ SEJA BEM-VINDO AO PROGRAMA DE CARONAS DA UNB!! 
+========================= MENU ====================================
               [1] Cadastrar usuário 
               [2] Cadastrar Oferta de carona
               [3] Buscar carona 
               [4] Buscar informações de contato da carona
               [5] Ajuda
-              [0] sair
+              [6] Relatório de caronas e cadastros
+              [0] Sair
+=================================================================== 
                """
     print(menu)
     option = int(input())
@@ -49,9 +60,10 @@ while option != 0:
     
     # cadastro de usuário
     if option == 1:
-        name = input('Digite seu nome: ')
-        email = input('Digite seu email: ')
-        phone = int(input('Digite seu telefone usando digitos de 0 a 9: '))
+        #O metodo strip() remove os espaços em branco no início e no final da string.
+        name = input('Digite seu nome: ').strip()
+        email = input('Digite seu email: ').strip()
+        phone = int(input('Digite seu telefone usando digitos de 0 a 9: ').strip())
         local = input('Digite sua regiao administrativa: ')
         idd = gen_id(dim_user['id'])
         private_key = gen_privete_key(dim_user['private_key'])
@@ -77,7 +89,7 @@ while option != 0:
     # cadastro de oferna    
     if option == 2:
         # Verificar o usuário
-        authetication = int(input('Digite a sua chave privada: ')) # VALIDAR ENTRADA
+        authetication = int(input('Digite a sua chave privada: ').strip()) # VALIDAR ENTRADA
         # Verificando se existe a chave authentication na coluna private_key da tabela dim_user(dataframe)
         # any() retorna se existe algum valor ao invés de retprnar uma lista de valores.
         valid_auth = dim_user['private_key'].isin([authetication]).any()
@@ -86,20 +98,20 @@ while option != 0:
         if valid_auth == False:
             continue 
         
-        local_origin = input('Digite sua regiao administrativa: ')
+        local_origin = input('Digite sua regiao administrativa: ').strip()
         
         if local_origin.upper() != 'UNB':
             local_destination = 'UNB'
             
         if local_origin.upper() == 'UNB':
-            local_destination = input('Digite seu local de destino: ')
+            local_destination = input('Digite seu local de destino: ').strp()
         
         # Padronizando 'UNB' para ficar sempre em maísculo.
-        #if local_origin.upper() == 'UNB':
-          #  local_origin = local_origin.upper()
+        # if local_origin.upper() == 'UNB':
+        # local_origin = local_origin.upper()
         
-        #if local_destination.upper() == 'UNB':
-        #    local_destination = local_destination.upper()
+        # if local_destination.upper() == 'UNB':
+        # local_destination = local_destination.upper()
         local_destination = local_destination.upper()
         local_origin = local_origin.upper()
         
@@ -130,7 +142,7 @@ while option != 0:
         offer_list_append = pd.Series(offer_list)
         # Adicionando (concatenando) a lista (offer_list) ao banco de dados fatos.
         fact_ride = pd.concat([fact_ride, offer_list_append.to_frame().T], ignore_index=True)
-
+        print('Seu cadastro foi realizado com sucesso! Saia do programa para garantir que suas informações sejam salvas.')
         
         # TRATAMENTO DE DADOS      
          
@@ -140,24 +152,24 @@ while option != 0:
         # RECEBENDO DADOS 
         # Input dos dados de busca (busca nos arquivos de dados)
        
-        local_origin = input('Digite o seu local de origem: ')
+        local_origin = input('Digite o seu local de origem: ').strip()
         
         if local_origin.upper() != 'UNB':
             local_destination = 'UNB'
             
         if local_origin.upper() == 'UNB':
-            local_destination = input('Digite seu local de destino: ')
+            local_destination = input('Digite seu local de destino: ').strp()
         
         # Padronizando para ficar sempre em maísculo.
         local_origin = local_origin.upper()
         local_destination = local_destination.upper()
         
         # Transformando o inicial_datetime do tipo string para o tipo datatime.
-        inicial_datatime = input('Digite o horario inicial da busca (DD-MM-AA HH:MM): ') # Tipo string
+        inicial_datatime = input('Digite o horario inicial da busca (DD-MM-AA HH:MM): ').strip() # Tipo string
         inicial_datatime = pd.to_datetime(inicial_datatime, format="%d-%m-%y %H:%M") # Tipo datatime
         
         # Transformando o final_datetime do tipo string para o tipo datatime.
-        final_datatime = input('Digite o horario final (DD-MM-AA HH:MM): ') # Tipo string
+        final_datatime = input('Digite o horario final (DD-MM-AA HH:MM): ').strip() # Tipo string
         final_datatime = pd.to_datetime(final_datatime, format="%d-%m-%y %H:%M") # Tipo datatime
         
         # BUSCANDO DADOS
@@ -183,6 +195,15 @@ while option != 0:
         
     if option == 5:
         db.show_help()  
+
+    # Relatório
+    if option == 6:
+        print("\nRelatório de Usuários Cadastrados:")
+        dim_user_sorted = dim_user.sort_values(by='local', ascending=True, key=lambda x: x.str.lower())
+        print(dim_user_sorted[['id', 'name', 'email', 'phone', 'private_key', 'local']])
+
+        print("\nRelatório de Ofertas de Carona:")
+        print(fact_ride)
 
     if option == 0:
         break

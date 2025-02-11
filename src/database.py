@@ -96,6 +96,10 @@ class DataBase:
              * Data/horário pretendido
            - O sistema mostrará caronas disponíveis
            - Para cada carona, será exibido um ID do motorista
+           - Pesquise o trecho de tempo em que sua carona se encontra.
+           - Exemplo de pesuisa de caronas às 19:00 do dia 10/10/25:
+           - Digite o horario inicial da busca (DD-MM-AA HH:MM): 10-10-25 18:00
+           - Digite o horario final (DD-MM-AA HH:MM): 10-10-25 20:00
 
         4. BUSCAR INFORMAÇÕES DE CONTATO
            - Digite o ID do motorista obtido na busca
